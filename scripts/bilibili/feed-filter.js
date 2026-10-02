@@ -8,7 +8,7 @@ Bilibili 首页推荐流过滤
    仅保留 duration >= 15 分钟
 */
 
-const MIN_DURATION = 15 * 60; // 15 min
+const MIN_DURATION = 15 * 60;
 
 try {
     const obj = JSON.parse($response.body);
@@ -20,17 +20,17 @@ try {
             const goto = item?.goto;
             const duration = item?.player_args?.duration;
 
-            // 1. 拒绝直播
+            // 直播
             if (goto === "live") {
                 return false;
             }
 
-            // 2. 拒绝图文
+            // 图文
             if (goto === "picture") {
                 return false;
             }
 
-            // 3. 普通视频：过滤 < 15 min
+            // 普通视频
             if (goto === "av") {
                 if (typeof duration !== "number") {
                     return false;
@@ -39,7 +39,7 @@ try {
                 return duration >= MIN_DURATION;
             }
 
-            // 未知类型暂时保留，避免误伤其他功能
+            // 暂时保留未知类型
             return true;
         });
 
